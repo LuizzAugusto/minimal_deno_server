@@ -1,1 +1,0 @@
-export { getPermissionOrExit } from "https://raw.githubusercontent.com/LuizzAugusto/deno_utilities/v1.2.1/getPermissionOrExit.js"
