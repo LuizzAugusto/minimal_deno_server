@@ -1,4 +1,4 @@
-import { serve } from "../deps/server.js"
+import { serve } from "./deps/server.js"
 import { log } from "./log.js"
 import { requestFileResponse } from "./requestFileResponse.js"
 import { notFoundResponse } from "./notFoundResponse.js"
