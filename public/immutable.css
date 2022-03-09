@@ -69,3 +69,6 @@
 
 .user-select-auto, .user-select { user-select: auto; }
 .user-select-none, .no-user-select { user-select: none; }
+
+.cursor-pointer { cursor: pointer; }
+.cursor-none, .no-cursor { cursor: none; }
