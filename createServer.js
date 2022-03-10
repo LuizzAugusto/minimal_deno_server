@@ -3,7 +3,7 @@ export function createServer({ publicFolder, hostname, port } = { publicFolder: 
 
   function init() {
     createServerSubprocess = Deno.run({ cmd: [ "deno", "run", "--allow-net=" + hostname + ":" + port, "--allow-read=" + publicFolder
-      , "_createServer.js", "--hostname=" + hostname, "--port=" + port ] })
+      , "_createServer.js", "--hostname=" + hostname, "--port=" + port, "--publicfolder=" + publicFolder ] })
     return createServerSubprocess.status()
   }
 

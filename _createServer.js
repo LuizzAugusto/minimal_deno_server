@@ -4,24 +4,35 @@ import { log } from "./log.js"
 import { requestFileResponse } from "./requestFileResponse.js"
 import { notFoundResponse } from "./notFoundResponse.js"
 
-const { hostname, port } = parse(Deno.args, { "--" : true })
+/**
+ * 
+ * @typedef {Object} ArgsType
+ * @property {string} hostname
+ * @property {number} port
+ * @property {string} publicfolder
+ */
+
+/**
+ * 
+ * @type {ArgsType}
+ */
+const { hostname, port, publicfolder } = parse(Deno.args)
 
 serve(async (req) => {
   const url = new URL(req.url)
   const path = url.pathname
-  log(true, path)
 
   if (req.method !== "GET")
     return notFoundResponse()
 
   if (path.endsWith(".js") || path.endsWith(".mjs"))
-    return await requestFileResponse(publicFolder + path, "text/javascript")
+    return await requestFileResponse(publicfolder + path, "text/javascript")
 
   if (path.endsWith(".css"))
-    return await requestFileResponse(publicFolder + path, "text/css")
+    return await requestFileResponse(publicfolder + path, "text/css")
 
   if (path === "/")
-    return await requestFileResponse(publicFolder + "/index.html", "text/html")
+    return await requestFileResponse(publicfolder + "/index.html", "text/html")
 
   return notFoundResponse()
 }, { port, hostname })
