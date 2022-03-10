@@ -1,4 +1,4 @@
-export function createServer({ publicFolder = "./public", hostname = "0.0.0.0", port = 3000 } = {}) {
+export function createServer({ publicFolder = "./public", hostname = "localhost", port = 3000 } = {}) {
   /**
    * @type {Deno.Process|undefined}
    */

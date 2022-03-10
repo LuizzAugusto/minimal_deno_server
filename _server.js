@@ -17,7 +17,7 @@ import { notFoundResponse } from "./notFoundResponse.js"
  */
 const { hostname, port, publicfolder } = parse(Deno.args)
 
-console.log("Starting server at http://localhost:" + port)
+console.log("Starting server at http://" + hostname + ":" + port)
 
 serve(async (req) => {
   const url = new URL(req.url)
