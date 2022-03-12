@@ -11,8 +11,11 @@ export function createServer({ publicFolder = "./public", hostname = "localhost"
   }
 
   function stop() {
-    if (serverSubprocess)
-      serverSubprocess.kill()
+    if (serverSubprocess) {
+      try { Promise.reject(server) }
+      catch(_) {/**/}
+      serverSubprocess.close()
+    }
   }
   
   const public_ = 
