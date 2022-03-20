@@ -1,20 +1,42 @@
+import { serve } from "./deps/server.js"
+import { requestFileResponse } from "./requestFileResponse.js"
+import { notFoundResponse } from "./notFoundResponse.js"
+
 export function createServer({ publicFolder = "./public", hostname = "localhost", port = 3000 } = {}) {
   /**
-   * @type {Deno.Process|undefined}
+   * 
+   * @type {Promise<void>|undefined}
    */
-  let serverSubprocess
+  let _server
 
   function init() {
-    serverSubprocess = Deno.run({ cmd: [ "deno", "run", "--allow-net=" + hostname + ":" + port, "--allow-read=" + publicFolder
-      , "_server.js", "--hostname=" + hostname, "--port=" + port, "--publicfolder=" + publicFolder ] })
-    return serverSubprocess.status()
+    console.log("Starting server at http://" + hostname + ":" + port)
+
+    _server = serve(async (req) => {
+      const url = new URL(req.url)
+      const path = url.pathname
+
+      if (req.method !== "GET")
+        return notFoundResponse()
+
+      if (path.endsWith(".js") || path.endsWith(".mjs"))
+        return await requestFileResponse(publicFolder + path, "text/javascript")
+
+      if (path.endsWith(".css"))
+        return await requestFileResponse(publicFolder + path, "text/css")
+
+      if (path === "/")
+        return await requestFileResponse(publicFolder + "/index.html", "text/html")
+
+      return notFoundResponse()
+    }, { port, hostname })
   }
 
   function stop() {
-    if (serverSubprocess) {
-      try { Promise.reject(server) }
+    if (_server) {
+      try { Promise.reject(_server) }
       catch(_) {/**/}
-      serverSubprocess.close()
+      _server.close()
     }
   }
   
